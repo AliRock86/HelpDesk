@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model HelpDesk.Models.Ticket
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+
+<div class="container">
+    <h1 class="list-group-item px-3 border-0 rounded-3 list-group-item-primary mb-2">تقديم طلب شراء</h1>
+ <form   method="post" asp-controller="Home" asp-action="CreateTicket2">
+  <!-- 2 column grid layout with text inputs for the first and last names -->
+  <div class="row mb-4">
+     <div class="col">
+      <div class="form-outline">
+        <label class="form-label" for="form6Example2">نوع الخدمة</label>
+        <div class="form-group mb-3">
+            <select asp-for="SubCategoryId" asp-items="@(new SelectList(ViewBag.SubCat,"Id","SubCategoryNameArb"))" class="form-control">
+                <option value="">الخدمة</option>
+            </select>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-outline">
+        <label class="form-label" for="form6Example1">أسم المادة:</label>
+        <input asp-for="Subject" type="text" id="form6Example1" class="form-control" />
+      </div>
+    </div>
+  <div class="col">
+    <div class="form-outline">
+      <label class="form-label" for="form6Example2"> القسم او الفرع :</label>
+    <div class="form-group mb-3">
+    <select asp-for="DepartmentId" asp-items="@(new SelectList(ViewBag.dep,"Id","DepartmentNameArb"))" class="form-control" id="Department">
+        <option value="">ألقسم</option>
+    </select>
+    </div>
+  </div>
+ </div>
+</div>
+  <div class="row mb-4">
+    <div class="col">
+      <div class="form-outline">
+        <label class="form-label" for="form6Example1">رقم المادة:</label>
+        <input asp-for="MaterialNumber" type="number" id="form6Example1" class="form-control" />
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-outline">
+        <label class="form-label" for="form6Example1">الكمية/العدد:</label>
+        <input asp-for="Number" type="number" id="form6Example1" class="form-control" />
+      </div>
+    </div>
+   </div>
+  <!-- Text input -->
+  <div class="form-outline mb-4">
+    <label class="form-label" for="form6Example3">السبب</label>
+     <textarea asp-for="Description" class="form-control" id="form6Example7" rows="4"></textarea>
+  </div>
+  <!-- Submit button -->
+  <button type="submit" class="btn btn-primary btn-block mb-4">أرسال الطلب </button>
+</form>
+
+@if(TempData["sh"] != null)
+    {
+    <a href="#" class="list-group-item list-group-item-action px-3 border-0 rounded-3 mb-2 list-group-item-success"
+    >@TempData["msg"]</a
+  >
+    }
+</div>

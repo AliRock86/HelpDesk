@@ -1,0 +1,112 @@
+﻿@model HelpDesk.Models.Ticket
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-md">
+      <div class="card bg-light mb-3" style="max-width: 18rem;">
+  <div class="card-header">
+      <div class="row">
+          <div class="col-md">
+              <span class="text-nowrap">الطلبات الكلية:</span>
+          </div>
+          <div class="col-md">
+              <span >@ViewBag.all</span>
+          </div>
+       </div>
+      </div>
+</div>
+ </div>
+    <div class="col-md">
+     <div class="card text-body bg-warning mb-3" style="max-width: 18rem;">
+  <div class="card-header">
+       <div class="row">
+          <div class="col-md">
+              <span class="text-nowrap">الطلبات المعلقة:</span>
+          </div>
+          <div class="col-md">
+              <span >@ViewBag.bin</span>
+          </div>
+       </div>
+  </div>
+</div>
+</div>
+    <div class="col-md">
+      <div class="card bg-danger mb-3" style="max-width: 18rem;">
+  <div class="card-header">
+            <div class="row">
+          <div class="col-md">
+              <span class="text-nowrap">الطلبات المرفوضة:</span>
+          </div>
+          <div class="col-md">
+              <span >@ViewBag.rej</span>
+          </div>
+       </div>
+  </div>
+
+</div>
+    </div>
+    <div class="col-md">
+      <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+  <div class="card-header">
+            <div class="row">
+          <div class="col-md">
+              <span class="text-nowrap">الطلبات المكتملة:</span>
+          </div>
+          <div class="col-md">
+              <span >@ViewBag.comp</span>
+          </div>
+       </div>
+  </div>
+
+</div>
+    </div>
+  </div>
+  <nav class="navbar bg-light">
+  <div class="container-fluid">
+    <form class="d-flex" role="search">
+      <button class="btn btn-outline-success" type="submit">بحث</button>
+      <input class="form-control me-2" type="search" placeholder="أكتب رقم الطلب" aria-label="Search">
+    </form>
+  </div>
+</nav>
+  <hr />
+  <table class="table align-middle mb-0 bg-white">
+  <thead class="bg-light">
+    <tr>
+      <th>رقم </th>
+      <th>الاسم </th>
+      <th>نوع الطلب </th>
+      <th>القسم</th>
+      <th>الحالة</th>
+      <th>الاجراء</th>
+    </tr>
+  </thead>
+  <tbody>
+   @foreach (var order in ViewBag.orders)
+   {
+    <tr>
+      <td>
+       @order.TicketId
+      </td>
+      <td>
+       @order.UserName
+      </td>
+      <td>
+       @order.TicketType
+      </td>
+      <td>
+        @order.Department
+      </td>
+      <td>@order.Status</td>
+      <td>
+        <a class="btn btn-link btn-sm btn-rounded" asp-controller="Details" asp-action="getTicket" asp-route-id=@order.TicketId>
+          عرض
+        </a>
+      </td>
+    </tr>
+           
+   }
+  </tbody>
+</table>
+</div>
+</div>

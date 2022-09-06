@@ -1,0 +1,93 @@
+﻿@model HelpDesk.Models.User
+ <div asp-validation-summary=All></div>
+<main class="signup-form">
+    <br />
+   <div class="cotainer">
+      
+    <div class="row g-3" class="container" style="direction: rtl;">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card">
+                    <h3 class="card-header text-center">أنشاء حساب</h3>
+                    <div class="card-body">
+                        <form   method="post" asp-controller="auth" asp-action="Create">
+                            <div class="form-group mb-3">
+                                <input asp-for="UserName" placeholder="أسم المستخدم" class="form-control"
+                                    required autofocus>
+                            </div>
+                            <div class="form-group mb-3">
+                                <input  placeholder="أيميل" asp-for="Email" class="form-control"
+                                     required autofocus> 
+                            </div>
+                            <div class="form-group mb-3">
+                                <input  placeholder="رقم الهاتف" asp-for="Phone" class="form-control"
+                                     required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <input placeholder="Password" asp-for="Password" class="form-control"
+                                     required>
+                            </div>
+                            <div class="form-group mb-3">
+                              <select asp-for="RoleId" asp-items="@(new SelectList(ViewBag.Role,"Id","RoleNameArb"))" class="form-control">
+                                  <option value="">ألمنصب</option>
+                              </select>
+             
+                            </div>
+                             <div class="form-group mb-3">
+                              <select asp-for="Id" asp-items="@(new SelectList(ViewBag.dep,"Id","DepartmentNameArb"))" class="form-control" id="Department">
+                                  <option value="">ألقسم</option>
+                              </select>
+                            </div>
+                              <div class="form-group mb-3">
+                                <select  name="BranchId" class="form-control" id="Branches">
+                                        <option selected>الشعبة</option>
+                                </select>
+                            </div>
+
+                            <div class="d-grid mx-auto">
+                                <button  class="btn btn-dark btn-block"> انشاء</button>
+                            </div>
+                        </form>
+                        <br />
+                        <div class="d-grid mx-auto">
+                        <a href="login" class="stretched-link text-warning" style="position: relative;">تسجيل دخول </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+
+      $(document).ready(function () {
+          //Dropdownlist Selectedchange event
+          $("#Department").change(function () {
+              $("#Branches").empty();
+              $.ajax({
+                  type: 'POST',
+                  url: '@Url.Action("GetBranches")', // we are calling json method
+                  dataType: 'json',
+                  data: { id: $("#Department").val() },
+                  success: function (states) {
+                       console.log(states);
+                      // states contains the JSON formatted list
+                      // of states passed from the controller
+
+                      $("#Branches").append('<option value="">' + "الشعبة" + '</option>');
+                      debugger;
+                      $.each(states, function (i, state) {
+                          $("#Branches").append('<option value="' + state.id + '">' + state.branchNameArb + '</option>');
+                          // here we are adding option for States
+                      });
+
+                  },
+                  error: function (ex) {
+                      console.log('Failed to retrieve states.' + ex.responseText);
+                  }
+              });
+              return false;
+          })
+      });
+</script>
